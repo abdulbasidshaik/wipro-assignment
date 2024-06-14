@@ -1,0 +1,48 @@
+-- Creating the customers table
+CREATE TABLE customers (
+    customer_id NUMBER(10) PRIMARY KEY,
+    customer_name VARCHAR2(50) NOT NULL,
+    phone_no NUMBER(10) UNIQUE NOT NULL,
+    email VARCHAR2(50) UNIQUE NOT NULL,
+    city VARCHAR2(50) NOT NULL
+);
+
+-- Inserting data into the customers table
+INSERT INTO customers (customer_id, customer_name, phone_no, email, city) VALUES
+(101, 'Abdulbasid', 8736254183, 'abdulbasidshaik4448@gmail.com', 'AndhraPradesh'),
+(102, 'Mansi', 7322537862, 'mansi@gmail.com', 'Lucknow'),
+(103, 'Ravi', 7343537862, 'ravi@gmail.com', 'Lucknow'),
+(104, 'Raushan', 8903537862, 'raushan@gmail.com', 'Pune'),
+(105, 'Praveen', 987654321, 'mpraveen@gmail.com', 'AndhraPradesh'),
+(106, 'Priya', 9873537862, 'priya@gmail.com', 'Farrukhabad'),
+(107, 'Rushi', 9811537862, 'rushi@gmail.com', 'Mumbai'),
+(108, 'Geethika', 732747862, 'geethika@gmail.com', 'AndhraPradesh'),
+(109, 'Neelesh', 9903537862, 'neelesh@gmail.com', 'Hyderabad');
+
+-- Creating the orders table
+CREATE TABLE orders (
+    order_id NUMBER(10) PRIMARY KEY,
+    customer_id NUMBER(10),
+    order_date DATE NOT NULL,
+    amount NUMBER(10, 2) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
+);
+
+-- Inserting data into the orders table
+INSERT INTO orders (order_id, customer_id, order_date, amount) VALUES
+(201, 101, TO_DATE('2024-01-15', 'YYYY-MM-DD'), 150.00),
+(202, 102, TO_DATE('2024-02-20', 'YYYY-MM-DD'), 200.00),
+(203, 103, TO_DATE('2024-03-10', 'YYYY-MM-DD'), 250.00),
+(204, 104, TO_DATE('2024-04-25', 'YYYY-MM-DD'), 300.00),
+(205, 101, TO_DATE('2024-05-30', 'YYYY-MM-DD'), 350.00);
+
+-- Query using INNER JOIN to combine orders and customers tables for customers in 'Lucknow'
+SELECT c.customer_id, c.customer_name, c.email, o.order_id, o.order_date, o.amount
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id
+WHERE c.city = 'Lucknow';
+
+-- Query using LEFT JOIN to display all customers including those without orders
+SELECT c.customer_id, c.customer_name, c.email, o.order_id, o.order_date, o.amount
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id;

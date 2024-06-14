@@ -1,0 +1,28 @@
+-- Creating the customers table
+CREATE TABLE customers (
+    customer_id NUMBER(10) PRIMARY KEY,
+    customer_name VARCHAR2(50) NOT NULL,
+    phone_no NUMBER(10) UNIQUE NOT NULL,
+    email VARCHAR2(50) UNIQUE NOT NULL,
+    city VARCHAR2(50) NOT NULL
+);
+
+-- Inserting data into the customers table
+INSERT INTO customers (customer_id, customer_name, phone_no, email, city) VALUES
+(101, 'Abdulbasid', 8736254183, 'abdulbasidshaik4448@gmail.com', 'AndhraPradesh'),
+(102, 'Mansi', 7322537862, 'mansi@gmail.com', 'Lucknow'),
+(103, 'Ravi', 7343537862, 'ravi@gmail.com', 'Lucknow'),
+(104, 'Raushan', 8903537862, 'raushan@gmail.com', 'Pune'),
+(105, 'Praveen', 987654321, 'mpraveen@gmail.com', 'AndhraPradesh'),
+(106, 'Priya', 9873537862, 'priya@gmail.com', 'Farrukhabad'),
+(107, 'Rushi', 9811537862, 'rushi@gmail.com', 'Mumbai'),
+(108, 'Geethika', 732747862, 'geethika@gmail.com', 'AndhraPradesh'),
+(109, 'Neelesh', 9903537862, 'neelesh@gmail.com', 'Hyderabad');
+
+-- Query to retrieve all columns from the customers table
+SELECT * FROM customers;
+
+-- Query to retrieve customer name and email address for customers in a specific city (e.g., 'Lucknow')
+SELECT customer_name, email
+FROM customers
+WHERE city = 'AndhraPradesh';

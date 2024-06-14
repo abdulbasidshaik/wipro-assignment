@@ -1,0 +1,103 @@
+-- Creating the author table
+CREATE TABLE author (
+    author_id NUMBER(10) PRIMARY KEY,
+    name VARCHAR2(30) NOT NULL
+);
+
+-- Creating the books table
+CREATE TABLE books (
+    books_id NUMBER(10) PRIMARY KEY,
+    title VARCHAR2(40) NOT NULL,
+    status VARCHAR2(40),
+    author_id NUMBER(10),
+    FOREIGN KEY (author_id) REFERENCES author(author_id) ON DELETE SET NULL
+);
+
+-- Creating the members table
+CREATE TABLE members (
+    member_id NUMBER(10) PRIMARY KEY,
+    name VARCHAR2(30) NOT NULL,
+    email VARCHAR2(40) UNIQUE NOT NULL,
+    phone_no NUMBER(10) UNIQUE
+);
+
+-- Creating the loans table
+CREATE TABLE loans (
+    loan_id NUMBER(10) PRIMARY KEY,
+    book_id NUMBER(10),
+    member_id NUMBER(10),
+    loan_date DATE NOT NULL,
+    return_date DATE,
+    CHECK(return_date >= loan_date),
+    FOREIGN KEY(book_id) REFERENCES books(books_id) ON DELETE CASCADE,
+    FOREIGN KEY(member_id) REFERENCES members(member_id) ON DELETE CASCADE
+);
+
+-- Creating the categories table
+CREATE TABLE categories (
+    category_id NUMBER(10) PRIMARY KEY,
+    book_id NUMBER(10),
+    category VARCHAR2(30) UNIQUE NOT NULL,
+    FOREIGN KEY(book_id) REFERENCES books(books_id) ON DELETE CASCADE
+);
+
+-- Inserting data into author table
+INSERT INTO author (author_id, name) VALUES
+(1, 'Bloomsbury'),
+(2, 'James Clear'),
+(3, 'Paula Hawkins'),
+(4, 'John Piper'),
+(5, 'Harper Lee');
+
+-- Inserting data into books table
+INSERT INTO books (books_id, title, status, author_id) VALUES
+(111, 'Harry Potter and the Philosophers Stone', 'Available', 1),
+(121, 'Atomic Habits', 'Not Available', 2),
+(112, 'The girl on the train', 'Available', 3),
+(122, 'Dont waste your life', 'Available', 4),
+(113, 'To kill a Mockingbird', 'Not Available', 5);
+
+-- Inserting data into categories table
+INSERT INTO categories (category_id, book_id, category) VALUES
+(101, 111, 'Fiction'),
+(102, 112, 'Crime Thriller'),
+(103, 113, 'Classic'),
+(104, 121, 'Motivation'),
+(105, 122, 'Education');
+
+-- Inserting data into members table
+INSERT INTO members (member_id, name, email, phone_no) VALUES
+(1001, 'Priya', 'priya@gmail.com', 9372910820),
+(1002, 'Ravi', 'ravi@gmail.com', NULL),
+(1003, 'Rushi', 'rushi@gmail.com', 7234910820),
+(1004, 'Mansi', 'mansi@gmail.com', NULL);
+
+-- Inserting data into loans table
+INSERT INTO loans (loan_id, book_id, member_id, loan_date, return_date) VALUES
+(1011, 112, 1001, TO_DATE('2024-06-06', 'YYYY-MM-DD'), NULL),
+(1012, 113, 1002, TO_DATE('2024-05-02', 'YYYY-MM-DD'), TO_DATE('2024-05-15', 'YYYY-MM-DD')),
+(1013, 111, 1004, TO_DATE('2024-04-09', 'YYYY-MM-DD'), TO_DATE('2024-04-21', 'YYYY-MM-DD')),
+(1014, 121, 1003, TO_DATE('2024-05-10', 'YYYY-MM-DD'), NULL),
+(1015, 122, 1001, TO_DATE('2024-03-05', 'YYYY-MM-DD'), TO_DATE('2024-03-25', 'YYYY-MM-DD')),
+(1016, 112, 1002, TO_DATE('2024-02-23', 'YYYY-MM-DD'), NULL),
+(1017, 113, 1003, TO_DATE('2024-01-26', 'YYYY-MM-DD'), TO_DATE('2024-02-23', 'YYYY-MM-DD')),
+(1018, 122, 1004, TO_DATE('2024-03-16', 'YYYY-MM-DD'), NULL);
+
+-- Descriptions of the tables
+DESC books;
+DESC author;
+DESC categories;
+DESC members;
+DESC loans;
+
+-- Select statements to view the data
+SELECT * FROM books;
+SELECT * FROM author;
+SELECT * FROM categories;
+SELECT * FROM members;
+SELECT * FROM loans;
+
+-- Joining books and categories tables
+SELECT * FROM books 
+INNER JOIN categories
+ON books.books_id = categories.book_id;
