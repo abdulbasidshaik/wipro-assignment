@@ -10,7 +10,7 @@ read -p "Enter number 2: " num2
 echo "The number is $num2"
 
 
-<< Enter number 1:
+: << 'Enter number 1:'
 100
 The number is 100
 Enter number 2: 200
