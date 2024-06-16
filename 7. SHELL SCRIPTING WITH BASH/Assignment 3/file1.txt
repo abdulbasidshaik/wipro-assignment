@@ -1,0 +1,2 @@
+Ethical hacking involves legally breaking into systems to test security defenses.
+Ethical hackers help organizations identify vulnerabilities before they can be exploited.

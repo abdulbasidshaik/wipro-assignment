@@ -1,0 +1,2 @@
+Penetration testing is a key task in ethical hacking to uncover security weaknesses.
+Ethical hackers use the same tools as malicious hackers but with permission.
