@@ -218,3 +218,99 @@ select trunc(200.9678, 2) from dual;
 
 select id, name, salary, salary / 30, round(salary / 30), round(salary / 30, 1), round(salary / 30, 2) from employee;
 
+select round(99.785) from dual;  -- Output: 100
+select trunc(99.785) from dual;  -- Output: 99
+
+select mod(3,2) from dual;  -- Output: 1
+select mod(3,3) from dual;  -- Output: 0
+select mod(8,3) from dual;  -- Output: 2
+
+
+select concat('abdulbasid',' shaik') from dual;  -- Output: abdulbasid shaik
+
+select id, name, concat('Welcome ', name) from employee;
+select id, name, concat(id, name) from employee;
+
+select id, name, length(name), substr(name, 1, 3) from employee;
+select id, name, length(name) from employee where length(name) > 5 and name like 's%';
+select id, name, length(name) from employee where length(name) > 5 or name like 's%';
+
+select instr('sachin', 's') from dual;  -- Output: 1
+select instr('sachin', 'a') from dual;  -- Output: 2
+select instr('sachin', 'i') from dual;  -- Output: 5
+select id, name, instr(name, 'a') from employee;
+select id, name, instr(name, 'a') from employee where instr(name, 'a') > 0 and instr(name, 'a') <= 2;
+
+select lpad(45000, 10, '-') from dual;  -- Output: -----45000
+select rpad(45000, 10, '-') from dual;  -- Output: 45000-----
+select id, name, lpad(salary, 12, '*') from employee;
+select replace('sachin', 'a', 'bbbbbb') from dual;  -- Output: sbbbbbbchin
+select id, name, replace(name, 'a', ' ') from employee;
+
+select id, name, upper(name), lower(name), initcap(name) from employee;
+select * from employee;
+select id, name, dept from employee where dept='Developer';
+update employee set name='John' where id=2;
+select id, name, dept from employee where lower(dept) = 'developer';
+select * from employee where lower(name)='john';
+
+-- sql Date Functions
+
+select sysdate from dual;
+select sysdate+1 from dual;
+select sysdate+5 from dual;
+select sysdate-1 from dual;
+select id, name, dob from employee;
+select id, name, dob, (sysdate-dob) from employee;
+select id, name, dob, round((sysdate-dob)) from employee;
+select id, name, dob, round((sysdate-dob)/365) as year from employee;
+select id, name, dob, round((sysdate-dob)/365) as year from employee order by year;
+select id, name, dob, round((sysdate-dob)/365) as year from employee order by year desc;
+select months_between('15-mar-2024', '15-apr-2024') from dual;  -- Output: -1
+select id, name, dob, months_between(sysdate, dob) from employee;
+select id, name, dob, round(months_between(sysdate, dob)) from employee;
+
+alter table employee add (doj date);
+select * from employee;
+select add_months(sysdate, 1) from dual;
+select add_months(sysdate, 2) from dual;
+select add_months('20-jan-24', 3) from dual;
+select next_day('15-jun-24', 'saturday') from dual;
+select last_day('15-jun-24') from dual;
+select last_day('15-feb-24') from dual;
+select id, name, dob, to_char(dob, 'DD MM YYYY') from employee;
+select id, name, dob, to_char(dob, 'DD MONTH YYYY') from employee;
+select id, name, dob, to_char(dob, 'DAY MONTH YYYY') from employee;
+select id, name, dob, to_char(dob, 'DAY MONTH year') from employee;
+select id, name, dob, to_char(dob, 'DAY MONTH year ') from employee;
+select to_char(sysdate, 'DAY MONTH YY, HH MI SS') from dual;
+select id, name, dob, to_char(dob, 'dd month yy HH MI SS') from employee;
+
+-- sql Advanced Queries (Window Functions)
+select * from emp10;
+select * from employee;
+update employee set dept='developer' where id='4';
+select dept, count(name) from employee group by dept;
+select name, count(name) from employee group by name;
+select id, name, salary, age, dept, count(name) over (partition by dept) from employee;
+select id, name, salary, age, dept, count(name) over (partition by dept), avg(salary) over (partition by dept) from employee;
+select id, name, salary, dept, rank() over(order by salary) from employee;
+select id, name, salary, dept, rank() over( partition by dept order by salary) from employee;
+select id, name, salary, dept, sum(salary) over (partition by dept) from employee;
+select id, name, salary, dept, rank() over (order by salary) from employee;
+select id, name, salary, dept, dense_rank() over (order by salary) from employee;
+select * from employee;
+select id, name, salary, dept, dense_rank() over(order by salary) as emprank from employee;
+select * from (select id, name, salary, dept, dense_rank() over(order by salary desc) as emprank from employee) where emprank=4;
+
+-- sql views
+select * from employee;
+create view developerview as select * from employee where dept='developer';
+select * from developerview;
+create view namelist as select id, name, age from employee;
+select * from namelist;
+
+--sql index
+select * from employee;
+create index empidindex on employee(id);
+select * from employee where id=4;
