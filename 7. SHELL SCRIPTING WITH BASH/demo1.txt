@@ -1,0 +1,39 @@
+#!/bin/bash
+
+read -p "enter the file: " filename
+
+if [ -e $filename ] then
+  echo "file exists"
+else
+  echo "file not found"
+fi
+
+echo "checking the read permissions..."
+
+if [ -r $filename ] then
+  echo "file has read permissions."
+else
+  echo "file doesn't have read permissions."
+fi
+
+
+OUTPUT: 
+
+rps@rps-virtual-machine:~/Desktop/8. SHELL SCRIPTING WITH BASH$ chmod 777 demo.sh
+rps@rps-virtual-machine:~/Desktop/8. SHELL SCRIPTING WITH BASH$ ./demo.sh
+enter the file: demo.sh
+file exists
+checking the read permissions
+file has read permissions
+
+rps@rps-virtual-machine:~/Desktop/8. SHELL SCRIPTING WITH BASH$ ./demo.sh
+enter the file: demo.txt
+file exists
+checking the read permissions
+file has read permissions
+
+rps@rps-virtual-machine:~/Desktop/8. SHELL SCRIPTING WITH BASH$ ./demo.sh
+enter the file: demo.java
+file not exists
+checking the read permissions
+file doesn't have read permission
